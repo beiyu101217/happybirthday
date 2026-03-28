@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>周浥辰 · 生日快乐 | 专属祝福</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none; /* 避免拖动文字影响氛围，不影响阅读 */
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #0a0f2a 0%, #0b1128 40%, #111a3a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', 'Poppins', 'Dancing Script', 'Cursive', 'Montserrat', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+            cursor: default;
+        }
+
+        /* 星空闪烁 + 漂浮云气氛围 */
+        .star-field {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #ffffff;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle 3s infinite alternate;
+            box-shadow: 0 0 6px rgba(255,255,200,0.8);
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; transform: scale(0.8);}
+            100% { opacity: 1; transform: scale(1.2);}
+        }
+
+        /* 柔光云层/光晕 */
+        .glow-mist {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 30%, rgba(255,200,150,0.08), transparent 70%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* 主卡片容器 */
+        .birthday-container {
+            position: relative;
+            z-index: 20;
+            width: 90%;
+            max-width: 750px;
+            margin: 2rem auto;
+            background: rgba(20, 25, 55, 0.55);
+            backdrop-filter: blur(12px);
+            border-radius: 68px;
+            border: 1px solid rgba(255, 215, 150, 0.4);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 190, 80, 0.2);
+            padding: 2rem 1.8rem 3rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        /* 气球装饰浮动 */
+        .balloon {
+            position: fixed;
+            bottom: -80px;
+            width: 55px;
+            height: 70px;
+            background: radial-gradient(circle at 30% 35%, #ff9a9e, #f56a79);
+            border-radius: 50%;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.1), 5px 5px 15px rgba(0,0,0,0.2);
+            pointer-events: none;
+            z-index: 15;
+            transition: transform 0.2s;
+        }
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1.5px;
+            height: 28px;
+            background: #e6d5b8;
+        }
+        .balloon::before {
+            content: '🎈';
+            position: absolute;
+            font-size: 20px;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.7;
+        }
+
+        /* 主角名字 + 标题 */
+        .name-title {
+            font-size: 3.8rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #FFE6B0, #FFB347, #FFD966);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 15px rgba(255,180,60,0.5);
+            margin-bottom: 0.5rem;
+            font-family: 'Dancing Script', 'Segoe UI', cursive;
+            transform: scale(1.02);
+        }
+
+        .greeting {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: #FFE9C7;
+            text-shadow: 0 2px 8px #704e2e40;
+            margin-bottom: 1rem;
+            word-break: keep-all;
+            backdrop-filter: blur(2px);
+        }
+
+        /* 蛋糕 + 蜡烛动画区 */
+        .cake-area {
+            margin: 2rem 0 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .cake {
+            position: relative;
+            width: 200px;
+            height: 140px;
+            background: #FAD6A5;
+            border-radius: 20px 20px 35px 35px;
+            box-shadow: 0 12px 0 #C28B5C, 0 20px 20px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .cake:hover {
+            transform: scale(1.02);
+        }
+        .cake-top {
+            position: absolute;
+            top: -30px;
+            left: 15px;
+            width: 170px;
+            height: 40px;
+            background: #FBE5B9;
+            border-radius: 60px 60px 30px 30px;
+            box-shadow: 0 5px 0 #DCB27A;
+        }
+        .candle {
+            position: absolute;
+            top: -52px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 48px;
+            background: linear-gradient(90deg, #FFD966, #FFB347);
+            border-radius: 10px 10px 4px 4px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 5;
+        }
+        .flame {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 18px;
+            height: 26px;
+            background: radial-gradient(circle, #FF8C00, #FF4D00);
+            border-radius: 80% 20% 70% 30%;
+            filter: blur(1px);
+            animation: flicker 0.2s infinite alternate;
+            box-shadow: 0 0 18px #ff8800;
+            cursor: pointer;
+        }
+        @keyframes flicker {
+            0% { opacity: 0.9; transform: scale(1) translateX(-50%); width: 18px; height: 26px;}
+            100% { opacity: 1; transform: scale(1.08) translateX(-50%); width: 20px; height: 28px;}
+        }
+        .cake-deco {
+            font-size: 28px;
+            position: absolute;
+            bottom: 12px;
+            left: 18px;
+            letter-spacing: 8px;
+        }
+
+        /* 祝福语区域动态打字机风格 */
+        .bless-message {
+            background: rgba(10, 15, 35, 0.65);
+            border-radius: 48px;
+            padding: 1rem 1.5rem;
+            margin: 1.8rem 0;
+            border-left: 5px solid #ffb347;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #FFF3E0;
+            line-height: 1.45;
+            backdrop-filter: blur(4px);
+            text-align: center;
+            font-family: 'Segoe UI', 'Montserrat', sans-serif;
+        }
+        .dynamic-text {
+            display: inline-block;
+            min-height: 4rem;
+        }
+        .cursor-blink {
+            display: inline-block;
+            width: 2px;
+            background: #FFC857;
+            margin-left: 4px;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* 许愿互动区域 */
+        .wish-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 1.5rem 0;
+        }
+        .wish-btn {
+            background: rgba(255, 190, 90, 0.2);
+            border: 1px solid #ffcd94;
+            backdrop-filter: blur(5px);
+            padding: 0.7rem 1.4rem;
+            border-radius: 60px;
+            font-weight: bold;
+            color: #ffeaC0;
+            font-size: 1rem;
+            transition: 0.2s;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .wish-btn:hover {
+            background: #ffb347;
+            color: #1a1f3a;
+            transform: scale(1.03);
+            box-shadow: 0 0 12px #ffb347;
+            border-color: #ffd58c;
+        }
+        /* 烟花画布 */
+        #fireworks-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99;
+        }
+
+        /* 音乐控制小元素 */
+        .music-tip {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            color: #ffdd99;
+            z-index: 100;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            border: 0.5px solid #ffbf69;
+        }
+        .music-icon {
+            font-size: 1.2rem;
+        }
+
+        /* 小星星额外装饰 */
+        .shooting-star {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 12px white;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        footer {
+            font-size: 0.7rem;
+            color: #b9b9de;
+            margin-top: 2rem;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 550px) {
+            .birthday-container {
+                padding: 1.5rem 1rem;
+            }
+            .name-title {
+                font-size: 2.5rem;
+            }
+            .greeting {
+                font-size: 1.2rem;
+            }
+            .bless-message {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="fireworks-canvas"></canvas>
+<div class="star-field" id="starfield"></div>
+<div class="glow-mist"></div>
+
+<!-- 动态气球容器 -->
+<div id="balloon-container"></div>
+
+<div class="birthday-container">
+    <div class="name-title">周浥辰</div>
+    <div class="greeting">✨ 生日快乐 ✨</div>
+    
+    <!-- 蛋糕互动区 -->
+    <div class="cake-area">
+        <div class="cake" id="cakeClick">
+            <div class="cake-top"></div>
+            <div class="candle" id="candle">
+                <div class="flame" id="flame"></div>
+            </div>
+            <div class="cake-deco">🎂 🎉</div>
+        </div>
+        <p style="margin-top: 20px; font-size: 0.8rem; color: #FFD9A5;">💡 点击蛋糕或蜡烛 · 许愿烟花绽放 💥</p>
+    </div>
+
+    <!-- 动态祝福语 (逐字显示) -->
+    <div class="bless-message">
+        <div class="dynamic-text" id="blessingText"></div>
+        <span class="cursor-blink" id="cursor"></span>
+    </div>
+
+    <!-- 心愿按钮组 -->
+    <div class="wish-section">
+        <button class="wish-btn" data-wish="🌟 愿你永远闪耀 🌟">✨ 星愿祝福 ✨</button>
+        <button class="wish-btn" data-wish="🎈 每一天都充满欢笑与奇遇 🎈">🎈 快乐奇遇 🎈</button>
+        <button class="wish-btn" data-wish="🚀 梦想触手可及，未来光芒万丈 🚀">🚀 光芒未来 🚀</button>
+        <button class="wish-btn" data-wish="💖 周浥辰，平安喜乐，万事胜意 💖">💖 暖心寄语 💖</button>
+    </div>
+    <footer>❤️ 来自朋友的特别祝福 · 页面永恒珍藏 ❤️</footer>
+</div>
+
+<div class="music-tip" id="musicToggle">
+    <span class="music-icon">🎵</span>
+    <span>生日旋律</span>
+</div>
+
+<script>
+    (function(){
+        // ======================= 1. 生成星空背景 ========================
+        const starField = document.getElementById('starfield');
+        const starCount = 220;
+        for(let i=0; i<starCount; i++) {
+            let star = document.createElement('div');
+            star.classList.add('star');
+            let size = Math.random() * 3.5 + 1.2;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 5 + 's';
+            star.style.animationDuration = Math.random() * 2 + 2 + 's';
+            starField.appendChild(star);
+        }
+
+        // ======================= 2. 动态气球漂浮 ========================
+        const balloonContainer = document.getElementById('balloon-container');
+        const balloonColors = ['#FFB6C1', '#FFA07A', '#FADADD', '#B0E0E6', '#F0E68C', '#DDA0DD', '#87CEFA'];
+        function createBalloon() {
+            const balloon = document.createElement('div');
+            balloon.classList.add('balloon');
+            const color = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+            balloon.style.backgroundColor = color;
+            balloon.style.left = Math.random() * 85 + 5 + '%';
+            balloon.style.width = 45 + Math.random() * 20 + 'px';
+            balloon.style.height = 55 + Math.random() * 20 + 'px';
+            balloon.style.bottom = '-100px';
+            const duration = 8 + Math.random() * 12;
+            balloon.style.transition = `bottom ${duration}s linear, left ${3 + Math.random() * 4}s ease-in-out`;
+            balloon.style.position = 'fixed';
+            balloon.style.zIndex = 15;
+            balloonContainer.appendChild(balloon);
+            // 动画移动
+            let start = Date.now();
+            let startLeft = parseFloat(balloon.style.left);
+            let drift = (Math.random() - 0.5) * 20;
+            function animateBalloon() {
+                const now = Date.now();
+                const elapsed = (now - start) / 1000;
+                if (elapsed >= duration) {
+                    balloon.remove();
+                    return;
+                }
+                let progress = elapsed / duration;
+                let newBottom = -100 + (window.innerHeight + 200) * progress;
+                balloon.style.bottom = newBottom + 'px';
+                // 轻微飘移
+                let newLeft = startLeft + drift * Math.sin(progress * Math.PI * 1.5);
+                balloon.style.left = Math.min(Math.max(newLeft, 2), 98) + '%';
+                requestAnimationFrame(animateBalloon);
+            }
+            requestAnimationFrame(animateBalloon);
+        }
+        setInterval(() => {
+            if(balloonContainer.children.length < 18) createBalloon();
+        }, 2800);
+        for(let i=0;i<5;i++) setTimeout(()=>createBalloon(), i*400);
+
+        // ======================= 3. 动态祝福语 (逐字输出) ========================
+        const fullMessage = "🎂 周浥辰，生日快乐！愿你在新的一岁里，✨ 星光满载，✨ 心中有梦，脚下有风，所有美好如期而至！ 🌟 愿你每一天都被温柔与幸运包围，蛋糕的甜，烟花的灿，都为你加冕！ 🥳🎉";
+        const blessingDiv = document.getElementById('blessingText');
+        const cursorSpan = document.getElementById('cursor');
+        let idx = 0;
+        function typeWriter() {
+            if(idx < fullMessage.length) {
+                blessingDiv.innerHTML += fullMessage.charAt(idx);
+                idx++;
+                setTimeout(typeWriter, 45);
+            } else {
+                cursorSpan.style.display = 'none';
+            }
+        }
+        typeWriter();
+
+        // ======================= 4. 烟花特效系统 ========================
+        const canvas = document.getElementById('fireworks-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        let particles = [];
+        let animationId = null;
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+        });
+        resizeCanvas();
+
+        class FireParticle {
+            constructor(x, y, vx, vy, color, size, alpha = 1) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.color = color;
+                this.size = size;
+                this.alpha = alpha;
+                this.gravity = 0.08;
+                this.friction = 0.98;
+                this.life = 1;
+                this.decay = 0.016 + Math.random() * 0.02;
+            }
+            update() {
+                this.vx *= this.friction;
+                this.vy *= this.friction;
+                this.vy += this.gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= this.decay;
+                return this.life > 0;
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.life * this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function createExplosion(x, y, primaryColor = null) {
+            const colors = ['#FFD966', '#FFA559', '#FF6F61', '#F4D03F', '#E67E22', '#F7DC6F', '#F5B041', '#FFC300', '#FF5733'];
+            const mainColor = primaryColor || colors[Math.floor(Math.random() * colors.length)];
+            const particleCount = 70 + Math.floor(Math.random() * 50);
+            for(let i=0; i<particleCount; i++) {
+                let angle = Math.random() * Math.PI * 2;
+                let speed = 2 + Math.random() * 6;
+                let vx = Math.cos(angle) * speed * (Math.random() * 1.2);
+                let vy = Math.sin(angle) * speed * (Math.random() * 1.2);
+                let colorVar = Math.random() > 0.6 ? mainColor : colors[Math.floor(Math.random()*colors.length)];
+                let size = 2 + Math.random() * 4;
+                let p = new FireParticle(x, y, vx, vy, colorVar, size, 0.9);
+                particles.push(p);
+            }
+            // 加一些闪光拖尾
+            for(let s=0;s<8;s++) {
+                let p2 = new FireParticle(x, y, (Math.random()-0.5)*5, (Math.random()-0.5)*5-2, '#FFF7B0', 3, 0.7);
+                particles.push(p2);
+            }
+        }
+
+        function animateFireworks() {
+            if (!ctx) return;
+            ctx.clearRect(0, 0, width, height);
+            let hasAlive = false;
+            for (let i=0; i<particles.length; i++) {
+                let alive = particles[i].update();
+                if(alive) {
+                    particles[i].draw();
+                    hasAlive = true;
+                } else {
+                    particles.splice(i,1);
+                    i--;
+                }
+            }
+            if(hasAlive || particles.length) {
+                animationId = requestAnimationFrame(animateFireworks);
+            } else {
+                if(animationId) cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+        }
+
+        function burstFireworkFromPosition(x, y, customColor=null) {
+            createExplosion(x, y, customColor);
+            if(animationId === null) {
+                animateFireworks();
+            }
+            // 额外二次小爆
+            setTimeout(() => {
+                if(x && y) createExplosion(x + (Math.random()-0.5)*40, y + (Math.random()-0.5)*30, '#FFB347');
+            }, 80);
+        }
+
+        // 随机位置烟花 (全屏氛围)
+        function randomFirework() {
+            const randX = Math.random() * width;
+            const randY = Math.random() * height * 0.7 + 50;
+            burstFireworkFromPosition(randX, randY);
+        }
+
+        // 许愿烟花连放
+        function wishFireworks() {
+            for(let i=0;i<5;i++) {
+                setTimeout(() => {
+                    const x = width/2 + (Math.random() - 0.5) * 200;
+                    const y = height/2 + (Math.random() - 0.5) * 150;
+                    burstFireworkFromPosition(x, y);
+                }, i * 120);
+            }
+            setTimeout(() => {
+                for(let i=0;i<4;i++) randomFirework();
+            }, 400);
+        }
+
+        // 交互: 点击蛋糕或蜡烛触发烟花+许愿效果
+        const cakeDiv = document.getElementById('cakeClick');
+        const candleDiv = document.getElementById('candle');
+        const flameDiv = document.getElementById('flame');
+        function handleCakeWish(e) {
+            e.stopPropagation();
+            wishFireworks();
+            // 短暂闪烁祝福变化
+            const tempMsg = document.getElementById('blessingText');
+            const original = tempMsg.innerHTML;
+            tempMsg.innerHTML = "🎉 许愿啦！周浥辰，你的愿望一定会实现 🎉 ✨✨✨";
+            setTimeout(() => {
+                if(idx >= fullMessage.length) tempMsg.innerHTML = fullMessage;
+                else tempMsg.innerHTML = fullMessage.substring(0, idx);
+            }, 1800);
+        }
+        cakeDiv.addEventListener('click', handleCakeWish);
+        if(candleDiv) candleDiv.addEventListener('click', handleCakeWish);
+        if(flameDiv) flameDiv.addEventListener('click', handleCakeWish);
+
+        // 心愿按钮互动
+        const wishBtns = document.querySelectorAll('.wish-btn');
+        wishBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const wishText = btn.getAttribute('data-wish') || "愿你万事胜意";
+                // 更新动态祝福区临时祝福
+                const blessBox = document.getElementById('blessingText');
+                const originalFull = fullMessage;
+                blessBox.innerHTML = `✨ ${wishText} ✨ 送给最棒的周浥辰！`;
+                setTimeout(() => {
+                    if(idx >= fullMessage.length) blessBox.innerHTML = fullMessage;
+                    else blessBox.innerHTML = fullMessage.substring(0, idx);
+                }, 2500);
+                wishFireworks();
+                // 随机多一次飘洒
+                setTimeout(() => randomFirework(), 300);
+            });
+        });
+
+        // 自动启动一些初始烟花（欢迎效果）
+        setTimeout(() => {
+            for(let i=0;i<3;i++) {
+                setTimeout(() => randomFirework(), i*300);
+            }
+        }, 800);
+
+        // ======================= 5. 背景轻音乐 (氛围音频，自动尝试静音策略，需用户交互才能播放) ========================
+        let audio = null;
+        let musicPlaying = false;
+        const musicToggleBtn = document.getElementById('musicToggle');
+        // 使用一个简单的web audio振荡器? 为了长期有效且无版权问题, 采用HTML5 Audio播放一段生日氛围旋律（使用公开的铃声? 不违规）
+        // 为了更好的兼容体验，我们创建一个简单的 oscillator 太麻烦且不友好，改用内置声音？但避免跨域和资源，利用浏览器内置蜂鸣?不好。
+        // 采用标准AudioContext生成简单的生日音效旋律(不依赖外部文件，永久有效且无版权困扰)
+        let audioCtx = null;
+        let isAudioAllowed = false;
+        function initAudio() {
+            if(audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            // 播放简单的生日快乐旋律片段 (简单合成)
+            function playTone(freq, duration, startTime, volume=0.2) {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = freq;
+                gain.gain.value = volume;
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(startTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+                osc.stop(startTime + duration);
+            }
+            const now = audioCtx.currentTime;
+            // 生日快乐简谱: 5 5 6 5 1 7  (C调)
+            const melody = [
+                {freq: 523.25, dur:0.4}, // C5
+                {freq: 523.25, dur:0.4},
+                {freq: 587.33, dur:0.8}, // D5
+                {freq: 523.25, dur:0.8},
+                {freq: 659.25, dur:0.8}, // E5
+                {freq: 493.88, dur:1.2}, // B4
+            ];
+            let time = now;
+            melody.forEach(note => {
+                playTone(note.freq, note.dur, time, 0.25);
+                time += note.dur;
+            });
+            // 第二句略加装饰
+            setTimeout(() => {
+                if(audioCtx && musicPlaying) {
+                    let t2 = audioCtx.currentTime;
+                    playTone(523.25,0.4,t2,0.22);
+                    playTone(523.25,0.4,t2+0.42,0.22);
+                    playTone(587.33,0.7,t2+0.85,0.22);
+                    playTone(523.25,0.7,t2+1.6,0.22);
+                    playTone(784.0,0.9,t2+2.35,0.22);
+                    playTone(659.25,1.2,t2+3.3,0.22);
+                }
+            }, 200);
+        }
+        let loopInterval = null;
+        function startMusicLoop() {
+            if(loopInterval) clearInterval(loopInterval);
+            loopInterval = setInterval(() => {
+                if(musicPlaying && audioCtx) {
+                    const now = audioCtx.currentTime;
+                    const shortMelody = [
+                        {f: 523.25, d:0.3},{f: 523.25,d:0.3},{f:587.33,d:0.6},{f:523.25,d:0.6},{f:659.25,d:0.6},{f:493.88,d:0.8}
+                    ];
+                    let t = now;
+                    shortMelody.forEach(m => {
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.value = m.f;
+                        gain.gain.value = 0.18;
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.start(t);
+                        gain.gain.exponentialRampToValueAtTime(0.0001, t + m.d);
+                        osc.stop(t + m.d);
+                        t += m.d;
+                    });
+                }
+            }, 6500);
+        }
+        musicToggleBtn.addEventListener('click', async () => {
+            if(!isAudioAllowed) {
+                if(!audioCtx) initAudio();
+                if(audioCtx.state === 'suspended') await audioCtx.resume();
+                musicPlaying = true;
+                isAudioAllowed = true;
+                startMusicLoop();
+                musicToggleBtn.style.opacity = '0.9';
+                musicToggleBtn.innerHTML = '<span class="music-icon">🎶</span><span>生日乐韵中</span>';
+                // 同时绽放一朵小烟花庆祝音乐开启
+                randomFirework();
+            } else {
+                musicPlaying = !musicPlaying;
+                if(musicPlaying) {
+                    startMusicLoop();
+                    musicToggleBtn.innerHTML = '<span class="music-icon">🎶</span><span>生日乐韵中</span>';
+                } else {
+                    if(loopInterval) clearInterval(loopInterval);
+                    loopInterval = null;
+                    musicToggleBtn.innerHTML = '<span class="music-icon">🎵</span><span>播放旋律</span>';
+                }
+            }
+        });
+        // 用户首次点击页面任意区域尝试激活音频 (便于移动端)
+        document.body.addEventListener('click', ()=>{
+            if(audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+                if(!isAudioAllowed) {
+                    musicPlaying = true;
+                    isAudioAllowed = true;
+                    startMusicLoop();
+                    musicToggleBtn.innerHTML = '<span class="music-icon">🎶</span><span>生日乐韵中</span>';
+                }
+            }
+        }, {once: true});
+        // 额外随机流星效果(光晕)
+        setInterval(() => {
+            if(Math.random()<0.3) randomFirework();
+        }, 11000);
+    })();
+</script>
+</body>
+</html>
